@@ -2,8 +2,10 @@
 Particle Swarm Optimization for Reactive Force Fields
 
 Dependencies:
-- LAMMPS built with ReaxFF 
-- First-principles ground truth data
+- LAMMPS built with ReaxFF package
+- ReaxFF forcefield to optimize
+- First-principles ground truth data and relaxed atomic structures
+- NumPy
 
 This code is a synthesis of a pre-existing force field optimization code from Matt Curnan [RFFOpt](https://github.com/15garzab/RFFopt) and the [pyswarm](https://github.com/tisimst/pyswarm) package for evolutionary optimization. It performs PSO to find optimal ReaxFF parameters for a chosen chemical system, varying the selected free parameters in the target potential to best fit a selected set of training data plus structures.
 
