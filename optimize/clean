@@ -1,0 +1,9 @@
+#!/usr/bin/bash
+
+head -5 final
+cp final oldfinals/.
+mv slurm* oldslurmouts/.
+rm storage/*
+rm failed/*
+rm -r run-*
+sbatch submit_batch

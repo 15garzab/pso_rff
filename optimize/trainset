@@ -1,0 +1,34 @@
+# bulk FCC references (per atom)
+bulkeng XX 30.00 XX Cu-bulk XX -85.741
+bulkeng XX 30.00 XX Ni-bulk XX -126.126
+bulkeng XX 30.00 XX O-bulk XX -58.806
+# Bulk bond distance (lattice spacing in angstroms)
+fbond XX 5.00 XX Cu-bulk XX 1 2 XX 2.56
+fbond XX 5.00 XX Ni-bulk XX 1 2 XX 2.48
+fbond XX 5.00 XX O-bulk XX 1 2 XX 1.21 
+# Pristine copper surface energies
+surfeng XX 1.25 XX Cu_100-44 XX "Cu_100-44 - 90*Cu 2xArea:235.879" XX 2.033
+surfeng XX 1.25 XX Cu_110-35 XX "Cu_110-35 - 84*Cu 2xArea:222.389" XX 2.126 
+surfeng XX 1.25 XX Cu_111-54 XX "Cu_111-54 - 80*Cu 2xArea:181.580" XX 1.738
+# stable NiO polymorphs from materials project (coheng)
+coheng XX 1.50 XX Ni2O3_Pm_3m XX "Ni2O3_Pm_3m - 2*Ni - 3*O" XX -168.746
+coheng XX 1.50 XX NiO_AFM2 XX "NiO_AFM2 - 2*Ni - 2*O" XX -34.357
+# stoichiometric CuNi bulk (coheng) 
+coheng XX 2.00 XX Stoich_CuNi_Bulk XX "Stoich_CuNi_Bulk - 2*Ni - 2*Cu" XX 3.517
+# Cu-Ni-O (100) surface energies top site
+surfeng XX 3.00 XX top_1_ni_sub XX "top_1_ni_sub - 1*Ni - 39*Cu - 1*O 2xArea:112.35" XX 1.576
+surfeng XX 3.00 XX top_1_ni_top XX "top_1_ni_top - 1*Ni - 39*Cu - 1*O 2xArea:112.35" XX 1.467
+surfeng XX 3.00 XX top_2_ni_sub XX "top_2_ni_sub - 2*Ni - 38*Cu - 1*O 2xArea:112.35" XX 1.578
+surfeng XX 3.00 XX top_2_ni_top XX "top_2_ni_top - 2*Ni - 38*Cu - 1*O 2xArea:112.35" XX 1.545
+surfeng XX 3.00 XX top_3_ni_sub XX "top_3_ni_sub - 3*Ni - 37*Cu - 1*O 2xArea:112.35" XX 1.585
+surfeng XX 3.00 XX top_3_ni_top XX "top_3_ni_top - 3*Ni - 37*Cu - 1*O 2xArea:112.35" XX 1.625
+surfeng XX 3.00 XX top_pure_ni_sub XX "top_pure_ni_sub - 8*Ni - 32*Cu - 1*O 2xArea:112.35" XX 1.723
+surfeng XX 3.00 XX top_pure_ni_top XX "top_pure_ni_top - 8*Ni - 32*Cu - 1*O 2xArea:112.35" XX 2.126
+# Cu-Ni-O (100) surface energies hollow site
+surfeng XX 3.00 XX hol_1_ni_sub XX "hol_1_ni_sub - 1*Ni - 39*Cu - 1*O - 2xArea:112.35" XX 1.197
+surfeng XX 3.00 XX hol_1_ni_top XX "hol_1_ni_top - 1*Ni - 39*Cu - 1*O - 2xArea:112.35" XX 1.197
+surfeng XX 3.00 XX hol_2_ni_sub XX "hol_2_ni_sub - 2*Ni - 38*Cu - 1*O - 2xArea:112.35" XX 1.202
+surfeng XX 3.00 XX hol_2_ni_top XX "hol_2_ni_top - 2*Ni - 38*Cu - 1*O - 2xArea:112.35" XX 1.228
+surfeng XX 3.00 XX hol_3_ni_sub XX "hol_3_ni_sub - 3*Ni - 37*Cu - 1*O - 2xArea:112.35" XX 1.183
+#surfeng XX 3.00 XX hol_3_ni_top XX "hol_3_ni_top - 3*Ni - 37*Cu - 1*O - 2xArea:112.35" XX 
+surfeng XX 3.00 XX hol_pure_ni_sub XX "hol_pure_ni_sub - 8*Ni - 32*Cu - 1*O - 2xArea:112.35" XX 1.317

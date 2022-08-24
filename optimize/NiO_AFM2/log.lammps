@@ -1,0 +1,212 @@
+LAMMPS (3 Mar 2020)
+# minimizing input file for REAX optimization
+variable        dt equal 1.0
+
+units           real
+boundary        p p p
+# needed for triclinic systems w large skew
+box		tilt large
+
+atom_style      charge
+read_data       data.cu
+  triclinic box = (0 0 0) to (4.14009 3.234 2.98557) with tilt (-1.55533 -1.55532 1.24304)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  4 atoms
+  read_data CPU = 0.0015411 secs
+
+#mass		1 63.5463
+mass        1 58.6934
+mass		2 15.9999
+
+pair_style	reax/c NULL safezone 2.4 mincap 200
+pair_coeff	* * ffield.reax.temp Ni O
+
+neighbor	2 bin
+neigh_modify	every 10 delay 0 check no
+
+fix             reax all qeq/reax 1 0.0 10.0 1e-6 reax/c
+
+timestep        ${dt}
+timestep        1
+
+thermo          1
+thermo_style    custom step etotal pe atoms
+thermo_modify   lost ignore
+
+dump            3 all custom 1 forces.dat id x y z fx fy fz
+dump_modify	3 sort id
+
+# configuration output section
+min_style       quickmin
+minimize        1.0e-8 1.0e-6 1000 1000
+WARNING: Using 'neigh_modify every 1 delay 0 check yes' setting during minimization (src/min.cpp:190)
+Neighbor list info ...
+  update every 1 steps, delay 0 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 12
+  ghost atom cutoff = 12
+  binsize = 6, bins = 2 1 1
+  2 neighbor lists, perpetual/occasional/extra = 2 0 0
+  (1) pair reax/c, perpetual
+      attributes: half, newton off, ghost
+      pair build: half/bin/newtoff/ghost
+      stencil: half/ghost/bin/3d/newtoff
+      bin: standard
+  (2) fix qeq/reax, perpetual, copy from (1)
+      attributes: half, newton off, ghost
+      pair build: copy
+      stencil: none
+      bin: none
+Per MPI rank memory allocation (min/avg/max) = 100.4 | 100.4 | 100.4 Mbytes
+Step TotEng PotEng Atoms 
+       0   -314.88532   -314.88532        4 
+       1   -314.71916   -314.88532        4 
+       2   -314.55275   -315.21741        4 
+       3   -314.38612    -315.8808        4 
+       4   -314.21927   -316.87367        4 
+       5   -314.05225   -318.19321        4 
+       6    -313.8851   -319.83578        4 
+       7   -313.72037    -321.7994        4 
+       8   -313.55247     -324.077        4 
+       9   -313.38475   -326.66278        4 
+      10    -313.2173   -329.55048        4 
+      11   -313.05017   -332.73348        4 
+      12   -312.88339   -336.20477        4 
+      13   -312.71688    -339.9568        4 
+      14    -312.5505   -343.98136        4 
+      15   -312.38393   -348.26915        4 
+      16   -312.21674   -352.80944        4 
+      17    -312.0483   -357.58953        4 
+      18   -311.87784   -362.59417        4 
+      19   -311.70444   -367.80498        4 
+      20   -311.52706   -373.19988        4 
+      21    -311.3446   -378.75261        4 
+      22   -311.15602   -384.43251        4 
+      23   -310.96033   -390.20435        4 
+      24   -310.77462    -396.0465        4 
+      25   -310.58338   -401.93747        4 
+      26   -310.37333   -407.82697        4 
+      27   -310.15952   -413.66969        4 
+      28   -309.94383    -419.4309        4 
+      29   -309.72861   -425.08005        4 
+      30   -309.51652   -430.59219        4 
+      31   -309.31037   -435.94906        4 
+      32   -309.11297   -441.13975        4 
+      33   -308.92702   -446.16099        4 
+      34   -308.75515   -451.01733        4 
+      35   -308.60034   -455.72164        4 
+      36   -308.46802    -460.2985        4 
+      37   -308.37846   -464.80379        4 
+      38   -308.42985   -469.43017        4 
+      39   -308.94521    -474.8669        4 
+      40    -308.8694   -481.10283        4 
+      41    -306.2586   -483.61278        4 
+      42   -305.75062   -483.70862        4 
+      43   -483.70861   -483.70862        4 
+      44   -483.70859   -483.70864        4 
+      45   -483.70858    -483.7087        4 
+      46   -483.70857   -483.70877        4 
+      47   -483.70856   -483.70887        4 
+      48   -483.70854   -483.70899        4 
+      49   -483.70853   -483.70915        4 
+      50   -483.70852   -483.70932        4 
+      51    -483.7085   -483.70952        4 
+      52   -483.70849   -483.70975        4 
+      53   -483.70848      -483.71        4 
+      54   -483.70846   -483.71027        4 
+      55   -483.70845   -483.71057        4 
+      56   -483.70843   -483.71089        4 
+      57   -483.70842   -483.71124        4 
+      58   -483.70841   -483.71161        4 
+      59   -483.70839     -483.712        4 
+      60   -483.70838   -483.71242        4 
+      61   -483.70836   -483.71286        4 
+      62   -483.70835   -483.71332        4 
+      63   -483.70833   -483.71381        4 
+      64   -483.70832   -483.71432        4 
+      65   -483.70831   -483.71485        4 
+      66   -483.70829   -483.71539        4 
+      67   -483.70827   -483.71596        4 
+      68   -483.70826   -483.71655        4 
+      69   -483.70824   -483.71717        4 
+      70   -483.70823   -483.71779        4 
+      71   -483.70821   -483.71843        4 
+      72   -483.70819    -483.7191        4 
+      73   -483.70818   -483.71978        4 
+      74   -483.70816   -483.72047        4 
+      75   -483.70814   -483.72117        4 
+      76   -483.70813    -483.7219        4 
+      77   -483.70811   -483.72263        4 
+      78   -483.70809   -483.72336        4 
+      79   -483.70807   -483.72411        4 
+      80   -483.70805   -483.72486        4 
+      81   -483.70803   -483.72562        4 
+      82   -483.70801   -483.72638        4 
+      83     -483.708   -483.72714        4 
+      84   -483.70797    -483.7279        4 
+      85   -483.70795   -483.72865        4 
+      86   -483.70793    -483.7294        4 
+      87   -483.70791   -483.73014        4 
+      88   -483.70789   -483.73087        4 
+      89   -483.70786   -483.73157        4 
+      90   -483.70783   -483.73226        4 
+      91   -483.70781   -483.73293        4 
+      92   -483.70778   -483.73357        4 
+      93   -483.70775   -483.73419        4 
+      94   -483.70772   -483.73477        4 
+      95   -483.70769   -483.73531        4 
+      96   -483.70766   -483.73581        4 
+      97   -483.70763   -483.73626        4 
+      98   -483.70759   -483.73667        4 
+      99   -483.70756   -483.73702        4 
+     100   -483.70752   -483.73731        4 
+     101   -483.70748   -483.73753        4 
+     102   -483.70744   -483.73769        4 
+     103   -483.70741   -483.73778        4 
+     104   -483.70741   -483.73779        4 
+     105   -483.73779   -483.73779        4 
+     106   -483.73779   -483.73779        4 
+     107    -483.7378    -483.7378        4 
+     108   -483.73779   -483.73779        4 
+     109   -483.73779   -483.73779        4 
+     110   -483.73779   -483.73779        4 
+     111   -483.73779   -483.73779        4 
+Loop time of 1.87981 on 1 procs for 111 steps with 4 atoms
+
+99.5% CPU use with 1 MPI tasks x no OpenMP threads
+
+Minimization stats:
+  Stopping criterion = energy tolerance
+  Energy initial, next-to-last, final = 
+        -314.885321003     -483.737793786     -483.737790423
+  Force two-norm initial, final = 215.915 0.0336264
+  Force max component initial, final = 132.2 0.021569
+  Final line search alpha, max atom move = 0 0
+  Iterations, force evaluations = 111 111
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 1.8532     | 1.8532     | 1.8532     |   0.0 | 98.59
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.0023125  | 0.0023125  | 0.0023125  |   0.0 |  0.12
+Output  | 0.010378   | 0.010378   | 0.010378   |   0.0 |  0.55
+Modify  | 0.012585   | 0.012585   | 0.012585   |   0.0 |  0.67
+Other   |            | 0.001289   |            |       |  0.07
+
+Nlocal:    4 ave 4 max 4 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    2345 ave 2345 max 2345 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    2876 ave 2876 max 2876 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 2876
+Ave neighs/atom = 719
+Neighbor list builds = 0
+Dangerous builds not checked
+
+Please see the log.cite file for references relevant to this simulation
+
+Total wall time: 0:00:01

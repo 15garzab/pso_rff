@@ -1,0 +1,9 @@
+1) Run 'head final' to see the best performing forcefields and their overall error calculated with weighted L2 norm
+
+2) After a run, all the per-atom forces are saved in /storage/. Any failed LAMMPS jobs (bad input script, missing necessary files, etc.) will have their outputs redirected to /failed/
+
+3) Parameters to be varied and their ranges are in 'params_ranges'.
+
+4) 'optimize.py' recognizes 'trainset' entries by the type of calculation: it currently accepts surface energy, formation energy, per-atom bulk energy, interatomic distances, and per-atom forces.
+
+5) To generate current results for all directories/structures in the training, loop through them all and 'echo $d >> output.txt' and also 'grep -A1 'Energy initial' $d/log.lammps | tail -1 >> output.txt'

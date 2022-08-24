@@ -1,0 +1,4 @@
+charge
+Cu 0
+Ni 0
+O 0

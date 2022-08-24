@@ -1,0 +1,195 @@
+LAMMPS (3 Mar 2020)
+# minimizing input file for REAX optimization
+variable        dt equal 1.0
+
+units           real
+boundary        p p p
+# needed for triclinic systems w large skew
+box		tilt large
+
+atom_style      charge
+read_data       data.cu
+  orthogonal box = (0 0 0) to (7.4951 7.49518 20.1119)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  41 atoms
+  read_data CPU = 0.001071 secs
+
+mass		1 63.5463
+mass		2 58.6934
+mass		3 15.9999
+
+pair_style	reax/c NULL safezone 2.4 mincap 200
+pair_coeff	* * ffield.reax.temp Cu Ni O
+
+neighbor	2 bin
+neigh_modify	every 10 delay 0 check no
+
+fix             reax all qeq/reax 1 0.0 10.0 1e-6 reax/c
+
+timestep        ${dt}
+timestep        1
+
+thermo          1
+thermo_style    custom step etotal pe atoms
+thermo_modify   lost ignore
+
+dump            3 all custom 1 forces.dat id x y z fx fy fz
+dump_modify	3 sort id
+
+# configuration output section
+min_style       quickmin
+minimize        1.0e-8 1.0e-6 1000 1000
+WARNING: Using 'neigh_modify every 1 delay 0 check yes' setting during minimization (src/min.cpp:190)
+Neighbor list info ...
+  update every 1 steps, delay 0 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 12
+  ghost atom cutoff = 12
+  binsize = 6, bins = 2 2 4
+  2 neighbor lists, perpetual/occasional/extra = 2 0 0
+  (1) pair reax/c, perpetual
+      attributes: half, newton off, ghost
+      pair build: half/bin/newtoff/ghost
+      stencil: half/ghost/bin/3d/newtoff
+      bin: standard
+  (2) fix qeq/reax, perpetual, copy from (1)
+      attributes: half, newton off, ghost
+      pair build: copy
+      stencil: none
+      bin: none
+Per MPI rank memory allocation (min/avg/max) = 62.9 | 62.9 | 62.9 Mbytes
+Step TotEng PotEng Atoms 
+       0   -3457.0068   -3457.0068       41 
+       1   -3456.5209   -3457.0068       41 
+       2   -3455.8099   -3457.9726       41 
+       3   -3454.6544   -3459.8676       41 
+       4    -3453.067   -3462.6075       41 
+       5   -3451.0774   -3466.0667       41 
+       6   -3448.7295   -3470.0869       41 
+       7   -3446.0756   -3474.4897       41 
+       8   -3443.1706   -3479.0895       41 
+       9   -3440.0656   -3483.7074       41 
+      10   -3436.8038    -3488.184       41 
+      11   -3433.4219   -3492.3901       41 
+      12   -3429.9583    -3496.234       41 
+      13   -3426.4745   -3499.6643       41 
+      14   -3423.0862   -3502.6677       41 
+      15   -3419.9956   -3505.2632       41 
+      16   -3417.5003   -3507.4923       41 
+      17   -3415.9511   -3509.4099       41 
+      18   -3415.6524   -3511.0753       41 
+      19   -3416.7726   -3512.5463       41 
+      20   -3419.3804    -3513.877       41 
+      21   -3423.6612   -3515.1214       41 
+      22   -3430.1754   -3516.3457       41 
+      23   -3439.5844   -3517.6525       41 
+      24   -3450.7636   -3519.2118       41 
+      25   -3459.5827   -3521.2584       41 
+      26   -3463.7071     -3524.01       41 
+      27   -3464.5332   -3527.5243       41 
+      28   -3463.7776   -3531.5742       41 
+      29   -3462.6007   -3535.6612       41 
+      30   -3462.1547    -3539.247       41 
+      31   -3463.0984   -3542.0749       41 
+      32   -3463.0963   -3544.2572       41 
+      33    -3458.722   -3546.0318       41 
+      34   -3453.6169   -3547.5439       41 
+      35   -3450.8328   -3548.8564       41 
+      36    -3449.045   -3550.0084       41 
+      37    -3446.862   -3551.0296       41 
+      38   -3444.0263    -3551.942       41 
+      39    -3440.853     -3552.76       41 
+      40   -3437.7039   -3553.4923       41 
+      41   -3434.8202   -3554.1431       41 
+      42   -3432.3183   -3554.7143       41 
+      43   -3430.2302   -3555.2062       41 
+      44   -3428.5225   -3555.6183       41 
+      45   -3427.1505   -3555.9503       41 
+      46   -3426.0336   -3556.2022       41 
+      47   -3425.1328   -3556.3744       41 
+      48     -3424.18    -3556.468       41 
+      49   -3427.2519    -3556.479       41 
+      50   -3556.4789    -3556.479       41 
+      51   -3556.4789    -3556.479       41 
+      52   -3556.4788   -3556.4791       41 
+      53   -3556.4788   -3556.4793       41 
+      54   -3556.4787   -3556.4796       41 
+      55   -3556.4786   -3556.4799       41 
+      56   -3556.4785   -3556.4802       41 
+      57   -3556.4784   -3556.4806       41 
+      58   -3556.4783    -3556.481       41 
+      59   -3556.4781   -3556.4814       41 
+      60    -3556.478   -3556.4819       41 
+      61   -3556.4778   -3556.4823       41 
+      62   -3556.4777   -3556.4828       41 
+      63   -3556.4776   -3556.4832       41 
+      64   -3556.4774   -3556.4837       41 
+      65   -3556.4773   -3556.4841       41 
+      66   -3556.4772   -3556.4844       41 
+      67   -3556.4771   -3556.4847       41 
+      68    -3556.477    -3556.485       41 
+      69   -3556.4771   -3556.4853       41 
+      70   -3556.4771   -3556.4854       41 
+      71   -3556.4773   -3556.4856       41 
+      72   -3556.4776   -3556.4857       41 
+      73   -3556.4777   -3556.4859       41 
+      74   -3556.4777    -3556.486       41 
+      75   -3556.4776   -3556.4861       41 
+      76   -3556.4775   -3556.4863       41 
+      77   -3556.4775   -3556.4864       41 
+      78   -3556.4774   -3556.4865       41 
+      79   -3556.4774   -3556.4866       41 
+      80   -3556.4774   -3556.4867       41 
+      81   -3556.4773   -3556.4868       41 
+      82   -3556.4773   -3556.4869       41 
+      83   -3556.4773    -3556.487       41 
+      84   -3556.4773   -3556.4871       41 
+      85   -3556.4772   -3556.4872       41 
+      86   -3556.4772   -3556.4872       41 
+      87   -3556.4772   -3556.4873       41 
+      88   -3556.4772   -3556.4874       41 
+      89   -3556.4771   -3556.4874       41 
+      90   -3556.4771   -3556.4875       41 
+      91   -3556.4771   -3556.4875       41 
+      92   -3556.4771   -3556.4876       41 
+      93   -3556.4771   -3556.4876       41 
+      94    -3556.477   -3556.4876       41 
+Loop time of 0.969352 on 1 procs for 94 steps with 41 atoms
+
+99.3% CPU use with 1 MPI tasks x no OpenMP threads
+
+Minimization stats:
+  Stopping criterion = energy tolerance
+  Energy initial, next-to-last, final = 
+        -3457.00678736     -3556.48759064     -3556.48762066
+  Force two-norm initial, final = 266.789 0.0774435
+  Force max component initial, final = 108.032 0.0250915
+  Final line search alpha, max atom move = 0 0
+  Iterations, force evaluations = 94 94
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.92401    | 0.92401    | 0.92401    |   0.0 | 95.32
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.0011091  | 0.0011091  | 0.0011091  |   0.0 |  0.11
+Output  | 0.012345   | 0.012345   | 0.012345   |   0.0 |  1.27
+Modify  | 0.030947   | 0.030947   | 0.030947   |   0.0 |  3.19
+Other   |            | 0.0009453  |            |       |  0.10
+
+Nlocal:    41 ave 41 max 41 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    1319 ave 1319 max 1319 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    11580 ave 11580 max 11580 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 11580
+Ave neighs/atom = 282.439
+Neighbor list builds = 0
+Dangerous builds not checked
+
+Please see the log.cite file for references relevant to this simulation
+
+Total wall time: 0:00:00

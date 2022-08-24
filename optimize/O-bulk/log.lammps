@@ -1,0 +1,148 @@
+LAMMPS (3 Mar 2020)
+# minimizing input file for REAX optimization
+variable        dt equal 1.0
+
+units           real
+boundary        f f f
+
+atom_style      charge
+read_data       data.cu
+  orthogonal box = (0 0 0) to (8.416 8.416 8.416)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  2 atoms
+  read_data CPU = 0.0008263 secs
+
+#mass		1 63.5463
+#mass        2 58.6934
+mass		1 15.9999
+
+pair_style	reax/c NULL safezone 2.4 mincap 200
+pair_coeff	* * ffield.reax.temp O
+
+neighbor	2 bin
+neigh_modify	every 10 delay 0 check no
+
+fix             reax all qeq/reax 1 0.0 10.0 1e-6 reax/c
+
+timestep        ${dt}
+timestep        1
+
+thermo          1
+thermo_style    custom step etotal pe atoms
+thermo_modify   lost ignore
+
+dump            3 all custom 1 forces.dat id x y z fx fy fz
+dump_modify	3 sort id
+
+# configuration output section
+min_style       quickmin
+minimize        1.0e-8 1.0e-6 1000 1000
+WARNING: Using 'neigh_modify every 1 delay 0 check yes' setting during minimization (src/min.cpp:190)
+Neighbor list info ...
+  update every 1 steps, delay 0 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 12
+  ghost atom cutoff = 12
+  binsize = 6, bins = 2 2 2
+  2 neighbor lists, perpetual/occasional/extra = 2 0 0
+  (1) pair reax/c, perpetual
+      attributes: half, newton off, ghost
+      pair build: half/bin/newtoff/ghost
+      stencil: half/ghost/bin/3d/newtoff
+      bin: standard
+  (2) fix qeq/reax, perpetual, copy from (1)
+      attributes: half, newton off, ghost
+      pair build: copy
+      stencil: none
+      bin: none
+Per MPI rank memory allocation (min/avg/max) = 10.27 | 10.27 | 10.27 Mbytes
+Step TotEng PotEng Atoms 
+       0   -127.59707   -127.59707        2 
+       1   -127.42063   -127.59707        2 
+       2   -127.22426   -127.93001        2 
+       3   -127.00425   -128.47454        2 
+       4   -126.75468    -128.9684        2 
+       5   -126.46973   -129.09162        2 
+       6   -129.08922   -129.09162        2 
+       7   -129.08652   -129.09614        2 
+       8   -129.08349   -129.10341        2 
+       9    -129.0801   -129.10975        2 
+      10   -129.07629   -129.11092        2 
+      11   -129.11087   -129.11092        2 
+      12   -129.11082   -129.11102        2 
+      13   -129.11075   -129.11117        2 
+      14   -129.11068    -129.1113        2 
+      15    -129.1106   -129.11133        2 
+      16   -129.11133   -129.11133        2 
+      17   -129.11133   -129.11133        2 
+      18   -129.11132   -129.11133        2 
+      19   -129.11132   -129.11134        2 
+      20   -129.11132   -129.11134        2 
+      21   -129.11134   -129.11134        2 
+      22   -129.11134   -129.11134        2 
+      23   -129.11134   -129.11134        2 
+      24   -129.11134   -129.11134        2 
+      25   -129.11134   -129.11134        2 
+      26   -129.11134   -129.11134        2 
+      27   -129.11134   -129.11134        2 
+      28   -129.11134   -129.11134        2 
+      29   -129.11134   -129.11134        2 
+      30   -129.11134   -129.11134        2 
+      31   -129.11134   -129.11134        2 
+      32   -129.11134   -129.11134        2 
+      33   -129.11134   -129.11134        2 
+      34   -129.11134   -129.11134        2 
+      35   -129.11134   -129.11134        2 
+      36   -129.11134   -129.11134        2 
+      37   -129.11134   -129.11134        2 
+      38   -129.11134   -129.11134        2 
+      39   -129.11134   -129.11134        2 
+      40   -129.11134   -129.11134        2 
+      41   -129.11134   -129.11134        2 
+      42   -129.11134   -129.11134        2 
+      43   -129.11134   -129.11134        2 
+      44   -129.11134   -129.11134        2 
+      45   -129.11134   -129.11134        2 
+      46   -129.11134   -129.11134        2 
+      47   -129.11134   -129.11134        2 
+      48   -129.11134   -129.11134        2 
+      49   -129.11134   -129.11134        2 
+Loop time of 0.0023593 on 1 procs for 49 steps with 2 atoms
+
+100.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+Minimization stats:
+  Stopping criterion = force tolerance
+  Energy initial, next-to-last, final = 
+        -127.597073434     -129.111336536     -129.111336536
+  Force two-norm initial, final = 116.165 6.87818e-07
+  Force max component initial, final = 82.1411 4.86361e-07
+  Final line search alpha, max atom move = 0 0
+  Iterations, force evaluations = 49 49
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0002253  | 0.0002253  | 0.0002253  |   0.0 |  9.55
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 1.32e-05   | 1.32e-05   | 1.32e-05   |   0.0 |  0.56
+Output  | 0.0019133  | 0.0019133  | 0.0019133  |   0.0 | 81.10
+Modify  | 9.46e-05   | 9.46e-05   | 9.46e-05   |   0.0 |  4.01
+Other   |            | 0.0001129  |            |       |  4.79
+
+Nlocal:    2 ave 2 max 2 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    0 ave 0 max 0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    1 ave 1 max 1 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 1
+Ave neighs/atom = 0.5
+Neighbor list builds = 0
+Dangerous builds not checked
+
+Please see the log.cite file for references relevant to this simulation
+
+Total wall time: 0:00:00

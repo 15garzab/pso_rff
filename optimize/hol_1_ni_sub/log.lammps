@@ -1,0 +1,192 @@
+LAMMPS (3 Mar 2020)
+# minimizing input file for REAX optimization
+variable        dt equal 1.0
+
+units           real
+boundary        p p p
+# needed for triclinic systems w large skew
+box		tilt large
+
+atom_style      charge
+read_data       data.cu
+  orthogonal box = (0 0 0) to (7.4951 7.49518 20.1119)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  41 atoms
+  read_data CPU = 0.0011438 secs
+
+mass		1 63.5463
+mass		2 58.6934
+mass		3 15.9999
+
+pair_style	reax/c NULL safezone 2.4 mincap 200
+pair_coeff	* * ffield.reax.temp Cu Ni O
+
+neighbor	2 bin
+neigh_modify	every 10 delay 0 check no
+
+fix             reax all qeq/reax 1 0.0 10.0 1e-6 reax/c
+
+timestep        ${dt}
+timestep        1
+
+thermo          1
+thermo_style    custom step etotal pe atoms
+thermo_modify   lost ignore
+
+dump            3 all custom 1 forces.dat id x y z fx fy fz
+dump_modify	3 sort id
+
+# configuration output section
+min_style       quickmin
+minimize        1.0e-8 1.0e-6 1000 1000
+WARNING: Using 'neigh_modify every 1 delay 0 check yes' setting during minimization (src/min.cpp:190)
+Neighbor list info ...
+  update every 1 steps, delay 0 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 12
+  ghost atom cutoff = 12
+  binsize = 6, bins = 2 2 4
+  2 neighbor lists, perpetual/occasional/extra = 2 0 0
+  (1) pair reax/c, perpetual
+      attributes: half, newton off, ghost
+      pair build: half/bin/newtoff/ghost
+      stencil: half/ghost/bin/3d/newtoff
+      bin: standard
+  (2) fix qeq/reax, perpetual, copy from (1)
+      attributes: half, newton off, ghost
+      pair build: copy
+      stencil: none
+      bin: none
+Per MPI rank memory allocation (min/avg/max) = 63.16 | 63.16 | 63.16 Mbytes
+Step TotEng PotEng Atoms 
+       0   -3489.5462   -3489.5462       41 
+       1   -3489.4975   -3489.5462       41 
+       2   -3489.4363   -3489.6437       41 
+       3   -3489.3506   -3489.8376       41 
+       4   -3489.2404   -3490.1258       41 
+       5   -3489.1064   -3490.5048       41 
+       6   -3488.9495   -3490.9699       41 
+       7   -3488.7707   -3491.5154       41 
+       8   -3488.5716   -3492.1344       41 
+       9   -3488.3541   -3492.8192       41 
+      10   -3488.1202   -3493.5614       41 
+      11   -3487.8723   -3494.3519       41 
+      12   -3487.6132   -3495.1809       41 
+      13   -3487.3459   -3496.0386       41 
+      14   -3487.0737   -3496.9149       41 
+      15   -3486.8006   -3497.7997       41 
+      16   -3486.5305    -3498.683       41 
+      17   -3486.2684   -3499.5557       41 
+      18   -3486.0196   -3500.4087       41 
+      19   -3485.7902   -3501.2341       41 
+      20   -3485.5872   -3502.0253       41 
+      21   -3485.4184   -3502.7765       41 
+      22    -3485.292   -3503.4841       41 
+      23   -3485.2157   -3504.1458       41 
+      24   -3485.1946   -3504.7618       41 
+      25   -3485.2287   -3505.3338       41 
+      26   -3485.3095   -3505.8657       41 
+      27   -3485.4195   -3506.3624       41 
+      28   -3485.5364   -3506.8292       41 
+      29   -3485.6417   -3507.2714       41 
+      30   -3485.7268   -3507.6933       41 
+      31   -3485.7942   -3508.0981       41 
+      32   -3485.8504   -3508.4881       41 
+      33   -3485.9007   -3508.8648       41 
+      34   -3485.9463    -3509.229       41 
+      35   -3485.9832   -3509.5812       41 
+      36   -3486.0028   -3509.9215       41 
+      37   -3485.9954   -3510.2498       41 
+      38   -3485.9499   -3510.5657       41 
+      39    -3485.853   -3510.8687       41 
+      40   -3485.6924   -3511.1584       41 
+      41   -3485.4551   -3511.4339       41 
+      42   -3485.1333   -3511.6947       41 
+      43   -3484.7234   -3511.9402       41 
+      44    -3484.229   -3512.1699       41 
+      45   -3483.6636   -3512.3836       41 
+      46    -3483.053   -3512.5812       41 
+      47   -3482.4263   -3512.7626       41 
+      48   -3481.8139   -3512.9277       41 
+      49   -3481.2441   -3513.0767       41 
+      50   -3480.7324   -3513.2095       41 
+      51   -3480.2928   -3513.3262       41 
+      52   -3479.9254   -3513.4267       41 
+      53     -3479.63    -3513.511       41 
+      54   -3479.4025   -3513.5791       41 
+      55    -3479.244   -3513.6309       41 
+      56   -3479.1358   -3513.6664       41 
+      57   -3479.1609   -3513.6856       41 
+      58   -3485.9226   -3513.6685       41 
+      59   -3513.6684   -3513.6685       41 
+      60   -3513.6684   -3513.6687       41 
+      61   -3513.6683    -3513.669       41 
+      62   -3513.6682   -3513.6695       41 
+      63   -3513.6681   -3513.6701       41 
+      64    -3513.668   -3513.6708       41 
+      65   -3513.6679   -3513.6717       41 
+      66   -3513.6678   -3513.6727       41 
+      67   -3513.6677   -3513.6738       41 
+      68   -3513.6676    -3513.675       41 
+      69   -3513.6675   -3513.6763       41 
+      70   -3513.6674   -3513.6776       41 
+      71   -3513.6673   -3513.6789       41 
+      72   -3513.6672   -3513.6802       41 
+      73   -3513.6671   -3513.6815       41 
+      74    -3513.667   -3513.6827       41 
+      75   -3513.6669   -3513.6839       41 
+      76   -3513.6668   -3513.6851       41 
+      77   -3513.6667   -3513.6861       41 
+      78   -3513.6666    -3513.687       41 
+      79   -3513.6665   -3513.6878       41 
+      80   -3513.6665   -3513.6884       41 
+      81   -3513.6664   -3513.6889       41 
+      82   -3513.6664   -3513.6892       41 
+      83   -3513.6665   -3513.6894       41 
+      84   -3513.6731   -3513.6894       41 
+      85   -3513.6894   -3513.6894       41 
+      86   -3513.6894   -3513.6894       41 
+      87   -3513.6894   -3513.6894       41 
+      88   -3513.6894   -3513.6894       41 
+      89   -3513.6894   -3513.6894       41 
+      90   -3513.6894   -3513.6894       41 
+      91   -3513.6894   -3513.6894       41 
+Loop time of 0.974665 on 1 procs for 91 steps with 41 atoms
+
+100.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+Minimization stats:
+  Stopping criterion = energy tolerance
+  Energy initial, next-to-last, final = 
+        -3489.54623104     -3513.68943384     -3513.68943993
+  Force two-norm initial, final = 103.069 0.11605
+  Force max component initial, final = 37.3197 0.039147
+  Final line search alpha, max atom move = 0 0
+  Iterations, force evaluations = 91 91
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.93073    | 0.93073    | 0.93073    |   0.0 | 95.49
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.0012714  | 0.0012714  | 0.0012714  |   0.0 |  0.13
+Output  | 0.012361   | 0.012361   | 0.012361   |   0.0 |  1.27
+Modify  | 0.02937    | 0.02937    | 0.02937    |   0.0 |  3.01
+Other   |            | 0.0009354  |            |       |  0.10
+
+Nlocal:    41 ave 41 max 41 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    1327 ave 1327 max 1327 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    11560 ave 11560 max 11560 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 11560
+Ave neighs/atom = 281.951
+Neighbor list builds = 0
+Dangerous builds not checked
+
+Please see the log.cite file for references relevant to this simulation
+
+Total wall time: 0:00:01

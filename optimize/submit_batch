@@ -1,0 +1,37 @@
+#!/bin/bash
+#SBATCH --nodes=3
+#SBATCH --ntasks-per-node=20
+#SBATCH --cluster=mpi
+#SBATCH --job-name=free_oxy2
+#SBATCH --partition=ib
+#SBATCH --time=06-00:00 # 6 days walltime in dd-hh:mm format
+#SBATCH --qos=short #required if walltime greater than 3 days
+#SBATCH --account=walsaidi
+
+# The ulimit
+ulimit -l unlimited
+ulimit -s unlimited
+# load required modules
+module purge
+module load python/3.7.0 venv/wrap
+workon pso
+module load intel/2018.2.199 intel-mpi/2018.2.199 mkl/2018.2.199
+module load lammps/16Mar18
+# copy necessary files over
+#cp optimize.py pso_mod.py run_bulk_lammps.bash run_lammps.bash ffield.reax params_ranges trainset $SLURM_SCRATCH # Copy inputs to scratch
+#for d in */ ; do
+#	cp -r $d $SLURM_SCRATCH
+#done
+
+#cd $SLURM_SCRATCH
+# Set a trap to copy any temp files you may need
+#run_on_exit(){
+# cp -r $SLURM_SCRATCH/* $SLURM_SUBMIT_DIR
+#}
+#trap run_on_exit EXIT
+
+python3 optimize.py -p 60 -S 240 -r 500
+
+# Report job stats, wall time, etc.
+crc-job-stats.py
+#cp final $SLURM_SUBMIT_DIR

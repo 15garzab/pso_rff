@@ -1,0 +1,107 @@
+LAMMPS (3 Mar 2020)
+# minimizing input file for REAX optimization
+variable        dt equal 1.0
+
+units           real
+boundary        p p p
+# needed for triclinic systems w large skew
+box		tilt large
+
+atom_style      charge
+read_data       data.cu
+  orthogonal box = (0 0 0) to (3.51208 3.51208 3.51208)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  4 atoms
+  read_data CPU = 0.0012821 secs
+
+#mass		1 63.5463
+mass        1 58.6934
+# mass		3 15.9999
+
+pair_style	reax/c NULL safezone 2.4 mincap 200
+pair_coeff	* * ffield.reax.temp Ni
+
+neighbor	2 bin
+neigh_modify	every 10 delay 0 check no
+
+fix             reax all qeq/reax 1 0.0 10.0 1e-6 reax/c
+
+timestep        ${dt}
+timestep        1
+
+thermo          1
+thermo_style    custom step etotal pe atoms
+thermo_modify   lost ignore
+
+dump            3 all custom 1 forces.dat id x y z fx fy fz
+dump_modify	3 sort id
+
+# configuration output section
+min_style       quickmin
+minimize        1.0e-8 1.0e-6 1000 1000
+WARNING: Using 'neigh_modify every 1 delay 0 check yes' setting during minimization (src/min.cpp:190)
+Neighbor list info ...
+  update every 1 steps, delay 0 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 12
+  ghost atom cutoff = 12
+  binsize = 6, bins = 1 1 1
+  2 neighbor lists, perpetual/occasional/extra = 2 0 0
+  (1) pair reax/c, perpetual
+      attributes: half, newton off, ghost
+      pair build: half/bin/newtoff/ghost
+      stencil: half/ghost/bin/3d/newtoff
+      bin: standard
+  (2) fix qeq/reax, perpetual, copy from (1)
+      attributes: half, newton off, ghost
+      pair build: copy
+      stencil: none
+      bin: none
+Per MPI rank memory allocation (min/avg/max) = 83.05 | 83.05 | 83.05 Mbytes
+Step TotEng PotEng Atoms 
+       0   -436.72334   -436.72334        4 
+       1   -436.72334   -436.72334        4 
+       2   -436.72334   -436.72334        4 
+       3   -436.72334   -436.72334        4 
+       4   -436.72334   -436.72334        4 
+       5   -436.72334   -436.72334        4 
+       6   -436.72334   -436.72334        4 
+Loop time of 0.0965705 on 1 procs for 6 steps with 4 atoms
+
+100.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+Minimization stats:
+  Stopping criterion = energy tolerance
+  Energy initial, next-to-last, final = 
+        -436.723338987     -436.723338987     -436.723338987
+  Force two-norm initial, final = 0.000512816 0.000480483
+  Force max component initial, final = 0.000148037 0.000138703
+  Final line search alpha, max atom move = 0 0
+  Iterations, force evaluations = 6 6
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.09548    | 0.09548    | 0.09548    |   0.0 | 98.87
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 9.61e-05   | 9.61e-05   | 9.61e-05   |   0.0 |  0.10
+Output  | 0.0003943  | 0.0003943  | 0.0003943  |   0.0 |  0.41
+Modify  | 0.0004294  | 0.0004294  | 0.0004294  |   0.0 |  0.44
+Other   |            | 0.0001702  |            |       |  0.18
+
+Nlocal:    4 ave 4 max 4 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    1684 ave 1684 max 1684 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    2690 ave 2690 max 2690 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 2690
+Ave neighs/atom = 672.5
+Neighbor list builds = 0
+Dangerous builds not checked
+
+Please see the log.cite file for references relevant to this simulation
+
+Total wall time: 0:00:00
